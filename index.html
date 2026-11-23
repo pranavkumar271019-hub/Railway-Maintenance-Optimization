@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Railway Maintenance Planner</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="main-navigation">
+    <div class="nav-logo">Railway Maintenance System</div>
+
+    <div class="nav-links">
+        <a href="#fcfs">FCFS</a>
+        <a href="#optimization">Optimization</a>
+        <a href="#gantt">Gantt Chart</a>
+        <a href="#comparison">Comparison</a>
+        <a href="#availabilityReport">Reports</a>
+        <a href="#login">Login</a>
+    </div>
+</nav>
+
+    <header>
+        <h2>🚆 Railway Maintenance Planner</h2>
+        <nav>
+            <a href="#">Dashboard</a>
+            <a href="#">Assets</a>
+            <a href="#">Departments</a>
+            <a href="#">Maintenance</a>
+            <a href="#">Reports</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="welcome">
+            <h1>Railway Maintenance Block Planning</h1>
+            <p>Smart planning for better railway asset availability.</p>
+            <button onclick="showMessage()">Get Started</button>
+        </section>
+
+        <section class="dashboard">
+            <div class="card">
+                <h3>Total Assets</h3>
+                <h2 id="totalAssets">0</h2>
+            </div>
+
+            <div class="card">
+                <h3>Available Assets</h3>
+                <h2 id="availableAssets">0</h2>
+            </div>
+
+            <div class="card">
+                <h3>Maintenance Blocks</h3>
+                <h2>15</h2>
+            </div>
+
+            <div class="card">
+                <h3>Conflicts</h3>
+                <h2>5</h2>
+            </div>
+        </section>
+    </main>
+    <section class="request-section" id="maintenance">
+    <h2>Maintenance Request Management</h2>
+    <p class="section-subtitle">Submit maintenance requests from different railway departments</p>
+
+    <form id="maintenanceForm">
+        <div class="form-grid">
+            <div>
+                <label>Department</label>
+                <select id="department" required>
+                    <option value="">Select Department</option>
+                    <option>Track Department</option>
+                    <option>Signal Department</option>
+                    <option>Electrical Department</option>
+                    <option>Mechanical Department</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Asset Type</label>
+                <select id="assetType" required>
+                    <option value="">Select Asset</option>
+                    <option>Railway Track</option>
+                    <option>Signal System</option>
+                    <option>Bridge</option>
+                    <option>Electrical Equipment</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Asset ID</label>
+                <input type="text" id="assetId" placeholder="Example: TR-101" required>
+            </div>
+
+            <div>
+                <label>Maintenance Date</label>
+                <input type="date" id="date" required>
+            </div>
+
+            <div>
+                <label>Start Time</label>
+                <input type="time" id="startTime" required>
+            </div>
+
+            <div>
+                <label>End Time</label>
+                <input type="time" id="endTime" required>
+            </div>
+
+            <div>
+                <label>Priority</label>
+                <select id="priority" required>
+                    <option>Low</option>
+                    <option>Medium</option>
+                    <option>High</option>
+                </select>
+            </div>
+        </div>
+
+        <button type="submit">Submit Maintenance Request</button>
+    </form>
+
+    <h2>Submitted Requests</h2>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Department</th>
+                    <th>Asset</th>
+                    <th>Asset ID</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Priority</th>
+                    <th>Conflict Status</th>
+                </tr>
+            </thead>
+            <tbody id="requestTable"></tbody>
+        </table>
+    </div>
+</section>
+<section class="asset-section" id="assets">
+    <h2>Railway Asset Management</h2>
+    <p class="section-subtitle">Manage railway infrastructure and monitor asset availability</p>
+
+    <form id="assetForm">
+        <div class="form-grid">
+            <div>
+                <label>Asset ID</label>
+                <input type="text" id="newAssetId" placeholder="Example: TR-101" required>
+            </div>
+
+            <div>
+                <label>Asset Name</label>
+                <input type="text" id="newAssetName" placeholder="Example: Main Track" required>
+            </div>
+
+            <div>
+                <label>Asset Type</label>
+                <select id="newAssetType" required>
+                    <option value="">Select Type</option>
+                    <option>Railway Track</option>
+                    <option>Signal System</option>
+                    <option>Railway Bridge</option>
+                    <option>Electrical Equipment</option>
+                    <option>Railway Machine</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Location</label>
+                <input type="text" id="newAssetLocation" placeholder="Example: Zone A" required>
+            </div>
+
+            <div>
+                <label>Asset Status</label>
+                <select id="newAssetStatus">
+                    <option>Available</option>
+                    <option>Under Maintenance</option>
+                    <option>Unavailable</option>
+                </select>
+            </div>
+        </div>
+
+        <button type="submit">Add New Asset</button>
+    </form>
+
+    <h2>Registered Railway Assets</h2>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Asset ID</th>
+                    <th>Asset Name</th>
+                    <th>Asset Type</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="assetTable">
+                <tr>
+                    <td>TR-101</td>
+                    <td>Main Track</td>
+                    <td>Railway Track</td>
+                    <td>Zone A</td>
+                    <td>Available</td>
+                </tr>
+                <tr>
+                    <td>SG-102</td>
+                    <td>Signal System</td>
+                    <td>Signal System</td>
+                    <td>Zone B</td>
+                    <td>Available</td>
+                </tr>
+                <tr>
+                    <td>BR-103</td>
+                    <td>Railway Bridge</td>
+                    <td>Railway Bridge</td>
+                    <td>Zone C</td>
+                    <td>Under Maintenance</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <section class="department-section" id="departments">
+    <h2>Department Management</h2>
+    <p class="section-subtitle">Manage all railway maintenance departments centrally</p>
+
+    <form id="departmentForm">
+        <div class="form-grid">
+            <div>
+                <label>Department ID</label>
+                <input type="text" id="departmentId" placeholder="DEP-104" required>
+            </div>
+
+            <div>
+                <label>Department Name</label>
+                <select id="departmentName" required>
+                    <option value="">Select Department</option>
+                    <option value="Track Department">Track Department</option>
+                    <option value="Signal Department">Signal Department</option>
+                    <option value="Electrical Department">Electrical Department</option>
+                    <option value="Mechanical Department">Mechanical Department</option>
+                    <option value="Civil Engineering Department">Civil Engineering Department</option>
+                </select>
+            </div>
+
+            <div>
+                <label>Department Head</label>
+                <input type="text" id="departmentHead" placeholder="Enter Department Head" required>
+            </div>
+
+            <div>
+                <label>Contact Number</label>
+                <input type="tel" id="departmentContact" placeholder="Enter Contact Number" required>
+            </div>
+        </div>
+
+        <button type="submit">Add Department</button>
+    </form>
+
+    <h2>Registered Departments</h2>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Department ID</th>
+                    <th>Department Name</th>
+                    <th>Department Head</th>
+                    <th>Contact Number</th>
+                </tr>
+            </thead>
+            <tbody id="departmentTable">
+                <tr>
+                    <td>DEP-101</td>
+                    <td>Track Department</td>
+                    <td>Raj Kumar</td>
+                    <td>9876543210</td>
+                </tr>
+                <tr>
+                    <td>DEP-102</td>
+                    <td>Signal Department</td>
+                    <td>Amit Sharma</td>
+                    <td>9876543211</td>
+                </tr>
+                <tr>
+                    <td>DEP-103</td>
+                    <td>Electrical Department</td>
+                    <td>Rahul Singh</td>
+                    <td>9876543212</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+    <h2>Registered Departments</h2>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Department ID</th>
+                    <th>Department Name</th>
+                    <th>Department Head</th>
+                    <th>Contact Number</th>
+                </tr>
+            </thead>
+
+            <tbody id="departmentTable">
+                <tr>
+                    <td>DEP-101</td>
+                    <td>Track Department</td>
+                    <td>Raj Kumar</td>
+                    <td>9876543210</td>
+                </tr>
+                <tr>
+                    <td>DEP-102</td>
+                    <td>Signal Department</td>
+                    <td>Amit Sharma</td>
+                    <td>9876543211</td>
+                </tr>
+                <tr>
+                    <td>DEP-103</td>
+                    <td>Electrical Department</td>
+                    <td>Rahul Singh</td>
+                    <td>9876543212</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+<section class="fcfs-section" id="fcfs">
+    <h2>FCFS Baseline Scheduling</h2>
+    <p class="section-subtitle">Schedule maintenance requests using First Come First Served algorithm</p>
+
+    <button type="button" id="runFCFS">Run FCFS Scheduling</button>
+
+    <div class="fcfs-summary">
+        <div class="card">
+            <h3>Total Requests</h3>
+            <h2 id="fcfsTotal">0</h2>
+        </div>
+
+        <div class="card">
+            <h3>Scheduled</h3>
+            <h2 id="fcfsScheduled">0</h2>
+        </div>
+
+        <div class="card">
+            <h3>Conflicting Requests</h3>
+            <h2 id="fcfsConflicts">0</h2>
+        </div>
+    </div>
+
+    <h2>FCFS Scheduling Results</h2>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Request</th>
+                    <th>Department</th>
+                    <th>Asset ID</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>FCFS Status</th>
+                </tr>
+            </thead>
+
+            <tbody id="fcfsTable"></tbody>
+        </table>
+    </div>
+</section>
+<section class="optimization-section" id="optimization">
+    <h2>Joint Maintenance Optimization</h2>
+    <p class="section-subtitle">Optimize maintenance schedules jointly across all railway departments</p>
+
+    <button type="button" id="runOptimization">
+        Generate Optimized Schedule
+    </button>
+
+    <div class="optimization-cards">
+        <div class="card">
+            <h3>Total Requests</h3>
+            <h2 id="optTotal">0</h2>
+        </div>
+
+        <div class="card">
+            <h3>Optimized Requests</h3>
+            <h2 id="optScheduled">0</h2>
+        </div>
+
+        <div class="card">
+            <h3>Conflicts Avoided</h3>
+            <h2 id="optConflicts">0</h2>
+        </div>
+
+        <div class="card">
+            <h3>Availability Lost</h3>
+            <h2 id="optLost">0 Hours</h2>
+        </div>
+    </div>
+
+    <h2>Optimized Maintenance Schedule</h2>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Request ID</th>
+                    <th>Department</th>
+                    <th>Asset ID</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Duration</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody id="optimizationTable"></tbody>
+        </table>
+    </div>
+</section>
+<section class="gantt-section" id="gantt">
+    <h2>Gantt Chart - Maintenance Schedule</h2>
+    <p>Visual timeline of optimized maintenance blocks.</p>
+    <button id="generateGantt">Generate Gantt Chart</button>
+    <div id="ganttChart">
+        <p>First generate the optimized schedule, then click Generate Gantt Chart.</p>
+    </div>
+</section>
+<section class="comparison-section" id="comparison">
+    <h2>FCFS vs Optimized Scheduling Comparison</h2>
+    <p>Compare the performance of both scheduling methods.</p>
+    <button id="compareSchedules">Compare Schedules</button>
+
+    <div class="comparison-grid">
+        <div class="comparison-card">
+            <h3>FCFS Scheduling</h3>
+            <p>Total Requests: <span id="compareFcfsTotal">0</span></p>
+            <p>Scheduled: <span id="compareFcfsScheduled">0</span></p>
+            <p>Conflicts: <span id="compareFcfsConflicts">0</span></p>
+        </div>
+
+        <div class="comparison-card">
+            <h3>Optimized Scheduling</h3>
+            <p>Total Requests: <span id="compareOptTotal">0</span></p>
+            <p>Scheduled: <span id="compareOptScheduled">0</span></p>
+            <p>Conflicts: <span id="compareOptConflicts">0</span></p>
+        </div>
+    </div>
+
+    <div class="comparison-result">
+        <h3>Performance Improvement</h3>
+        <p>Additional Requests Scheduled: <strong id="additionalScheduled">0</strong></p>
+        <p>Conflicts Reduced: <strong id="conflictsReduced">0</strong></p>
+        <p id="comparisonMessage">Click Compare Schedules to view results.</p>
+    </div>
+</section>
+<section class="report-section" id="availabilityReport">
+    <h2>System Performance Dashboard</h2>
+    <p>Overall railway maintenance and asset management report.</p>
+
+    <button id="refreshReport">Refresh Dashboard</button>
+
+    <div class="report-grid">
+        <div class="report-card">
+            <h3>Total Requests</h3>
+            <h2 id="reportRequests">0</h2>
+        </div>
+
+        <div class="report-card">
+            <h3>Total Assets</h3>
+            <h2 id="reportAssets">0</h2>
+        </div>
+
+        <div class="report-card">
+            <h3>Total Departments</h3>
+            <h2 id="reportDepartments">0</h2>
+        </div>
+
+        <div class="report-card">
+            <h3>Scheduled Maintenance</h3>
+            <h2 id="reportScheduled">0</h2>
+        </div>
+
+        <div class="report-card">
+            <h3>Conflicts Detected</h3>
+            <h2 id="reportConflicts">0</h2>
+        </div>
+
+        <div class="report-card">
+            <h3>Pending Requests</h3>
+            <h2 id="reportPending">0</h2>
+        </div>
+    </div>
+
+    <div class="report-summary">
+        <h3>System Summary</h3>
+        <p id="reportSummary">Click Refresh Dashboard to generate the report.</p>
+    </div>
+</section>
+<section class="login-section" id="login">
+    <h2>User Login</h2>
+    <p>Railway Maintenance Management System</p>
+
+    <form id="loginForm">
+        <label>Username</label>
+        <input type="text" id="loginUsername" placeholder="Enter username" required>
+
+        <label>Password</label>
+        <input type="password" id="loginPassword" placeholder="Enter password" required>
+
+        <label>User Role</label>
+        <select id="loginRole" required>
+            <option value="">Select Role</option>
+            <option value="Admin">Admin</option>
+            <option value="Department">Department User</option>
+        </select>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <p id="loginMessage"></p>
+</section>
+<section class="storage-section">
+    <h2>Data Storage Management</h2>
+    <p id="storageStatus">Data storage system is ready.</p>
+    <button id="clearProjectData">Clear All Saved Data</button>
+</section>
+<section class="availability-section" id="assetAvailability">
+    <h2>Railway Asset Availability Analysis</h2>
+    <p>Calculate asset availability after optimized maintenance scheduling.</p>
+
+    <button id="calculateAvailability">Calculate Availability</button>
+
+    <div class="availability-grid">
+        <div class="availability-card">
+            <h3>Total Asset Hours</h3>
+            <h2 id="totalAssetHours">0</h2>
+        </div>
+
+        <div class="availability-card">
+            <h3>Maintenance Hours</h3>
+            <h2 id="maintenanceHours">0</h2>
+        </div>
+
+        <div class="availability-card">
+            <h3>Available Hours</h3>
+            <h2 id="availableHours">0</h2>
+        </div>
+
+        <div class="availability-card">
+            <h3>Availability</h3>
+            <h2 id="availabilityPercent">0%</h2>
+        </div>
+    </div>
+
+    <div class="availability-progress">
+        <div id="availabilityBar"></div>
+    </div>
+
+    <p id="availabilityMessage">Generate an optimized schedule first.</p>
+</section>
+<section class="analytics-section" id="analytics">
+    <h2>Railway Maintenance Analytics</h2>
+    <p>Visual comparison of FCFS and Optimized Scheduling.</p>
+
+    <button id="generateAnalytics">Generate Analytics</button>
+
+    <div class="chart-container">
+        <h3>Scheduling Performance Comparison</h3>
+        <canvas id="performanceChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+        <h3>Optimized Schedule Distribution</h3>
+        <canvas id="distributionChart"></canvas>
+    </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script src="script.js"></script>
+</body>
+</html>
